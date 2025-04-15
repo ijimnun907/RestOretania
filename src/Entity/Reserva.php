@@ -13,7 +13,7 @@ class Reserva
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $fechaHora = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservas')]
