@@ -19,16 +19,16 @@ class Plato
     #[ORM\Column(length: 255)]
     private ?string $descripcion = null;
 
-    #[ORM\Column]
-    private ?float $precio = null;
+    #[ORM\Column(type: 'integer')]
+    private ?int $precio = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $foto = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'boolean')]
     private ?bool $contieneGluten = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'boolean')]
     private ?bool $contieneLactosa = null;
 
     public function getId(): ?int
@@ -60,12 +60,12 @@ class Plato
         return $this;
     }
 
-    public function getPrecio(): ?float
+    public function getPrecio(): ?int
     {
         return $this->precio;
     }
 
-    public function setPrecio(float $precio): static
+    public function setPrecio(int $precio): static
     {
         $this->precio = $precio;
 

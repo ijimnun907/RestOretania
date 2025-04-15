@@ -27,10 +27,10 @@ class Usuario
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'boolean')]
     private ?bool $esAdministrador = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'boolean')]
     private ?bool $esCamarero = null;
 
     #[ORM\OneToMany(targetEntity: Reserva::class, mappedBy: 'usuario')]

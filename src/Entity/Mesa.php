@@ -15,13 +15,13 @@ class Mesa
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $numero = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $capacidad = null;
 
-    #[ORM\OneToMany(targetEntity: Reserva::class, mappedBy: 'mesa', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Reserva::class, mappedBy: 'mesa')]
     private Collection $reservas;
 
     public function __construct()

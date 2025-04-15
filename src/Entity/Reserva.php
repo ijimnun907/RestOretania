@@ -16,11 +16,11 @@ class Reserva
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $fechaHora = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservas')]
+    #[ORM\ManyToOne(targetEntity: Usuario::class,inversedBy: 'reservas')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $usuario = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservas')]
+    #[ORM\ManyToOne(targetEntity: Mesa::class ,inversedBy: 'reservas')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Mesa $mesa = null;
 
