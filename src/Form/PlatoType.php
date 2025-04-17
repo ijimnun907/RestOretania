@@ -29,7 +29,7 @@ class PlatoType extends AbstractType
             ->add('precio', MoneyType::class, [
                 'divisor' => 100
             ])
-            ->add('foto', FileType::class, [
+            ->add('fotoFile', FileType::class, [
                 'mapped' => false,
                 'required' => false,
                 'label' => 'Foto del plato',

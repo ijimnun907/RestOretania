@@ -9,11 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class PlatoController extends AbstractController
 {
     #[Route('/plato/modificar/{id}', name: 'plato_modificar')]
-    public function modificar(Request $request, PlatoRepository $platoRepository, Plato $plato) : Response
+    public function modificar(Request $request, PlatoRepository $platoRepository, Plato $plato, SluggerInterface $slugger) : Response
     {
         $form = $this->createForm(PlatoType::class, $plato);
 
@@ -22,6 +23,23 @@ class PlatoController extends AbstractController
         $nuevo = $plato->getId() === null;
 
         if ($form->isSubmitted() && $form->isValid()){
+            $fotoFile = $form->get('fotoFile')->getData();
+
+            if ($fotoFile){
+                $originalFilename = pathinfo($fotoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename. '-' . uniqid() . '.' . $fotoFile->guessExtension();
+
+                try {
+                    $fotoFile->move(
+                        $this->getParameter('platos_directory'),
+                        $newFilename
+                    );
+                    $plato->setFoto($newFilename);
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Error subiendo la imagen.');
+                }
+            }
             try {
                 $platoRepository->save();
                 if ($nuevo){
@@ -44,12 +62,12 @@ class PlatoController extends AbstractController
     }
 
     #[Route('/plato/nuevo', name: 'plato_nuevo')]
-    public function nuevo(Request $request, PlatoRepository $platoRepository) : Response
+    public function nuevo(Request $request, PlatoRepository $platoRepository, SluggerInterface $slugger) : Response
     {
         $plato = new Plato();
         $platoRepository->add($plato);
 
-        return $this->modificar($request, $platoRepository, $plato);
+        return $this->modificar($request, $platoRepository, $plato, $slugger);
     }
 
     #[Route('/plato/eliminar/{id}', name: 'plato_eliminar')]
