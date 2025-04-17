@@ -21,6 +21,21 @@ class PlatoRepository extends ServiceEntityRepository
         parent::__construct($registry, Plato::class);
     }
 
+    public function save()
+    {
+        $this->getEntityManager()->flush();
+    }
+
+    public function remove(Plato $plato)
+    {
+        $this->getEntityManager()->remove($plato);
+    }
+
+    public function add(Plato $plato)
+    {
+        $this->getEntityManager()->persist($plato);
+    }
+
 //    /**
 //     * @return Plato[] Returns an array of Plato objects
 //     */
