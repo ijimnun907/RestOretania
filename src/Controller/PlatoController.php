@@ -13,6 +13,16 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class PlatoController extends AbstractController
 {
+    #[Route('/plato/listar', name: 'plato_listar')]
+    public function listar(PlatoRepository $platoRepository) : Response
+    {
+        $platos = $platoRepository->findPlatoOrdenadosPorTitulo();
+
+        return $this->render('plato/listar.html.twig', [
+            'platos' => $platos
+        ]);
+    }
+
     #[Route('/plato/modificar/{id}', name: 'plato_modificar')]
     public function modificar(Request $request, PlatoRepository $platoRepository, Plato $plato, SluggerInterface $slugger) : Response
     {

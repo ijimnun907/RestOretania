@@ -36,6 +36,14 @@ class PlatoRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($plato);
     }
 
+    public function findPlatoOrdenadosPorTitulo() : array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.nombre', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Plato[] Returns an array of Plato objects
 //     */
