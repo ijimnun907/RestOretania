@@ -21,6 +21,21 @@ class ReservaRepository extends ServiceEntityRepository
         parent::__construct($registry, Reserva::class);
     }
 
+    public function save()
+    {
+        $this->getEntityManager()->flush();
+    }
+
+    public function remove(Reserva $reserva)
+    {
+        $this->getEntityManager()->remove($reserva);
+    }
+
+    public function add(Reserva $reserva)
+    {
+        $this->getEntityManager()->persist($reserva);
+    }
+
 //    /**
 //     * @return Reserva[] Returns an array of Reserva objects
 //     */

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Reserva {% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('JSscripts/horas-reservadas.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_row(form.mesa) }}
+    {{ form_row(form.fecha) }}
+    {{ form_row(form.hora) }}
+    <button class="btn btn-success">Reservar</button>
+    {{ form_end(form) }}
+{% endblock %}
