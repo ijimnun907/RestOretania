@@ -6,9 +6,11 @@ use App\Repository\UsuarioRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsuarioRepository::class)]
-class Usuario
+class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -146,5 +148,40 @@ class Usuario
         }
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = [];
+        $roles[] = 'ROLE_USER';
+        if ($this->esAdministrador) {
+            $roles[] = 'ROLE_ADMIN';
+        }
+
+        if ($this->esCamarero) {
+            $roles[] = 'ROLE_CAMARERO';
+        }
+
+        return array_unique($roles);
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function __call(string $name, array $arguments)
+    {
+        // TODO: Implement @method string getUserIdentifier()
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
     }
 }
