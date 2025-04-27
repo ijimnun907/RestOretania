@@ -21,6 +21,21 @@ class MesaRepository extends ServiceEntityRepository
         parent::__construct($registry, Mesa::class);
     }
 
+    public function save()
+    {
+        $this->getEntityManager()->flush();
+    }
+
+    public function remove(Mesa $mesa)
+    {
+        $this->getEntityManager()->remove($mesa);
+    }
+
+    public function add(Mesa $mesa)
+    {
+        $this->getEntityManager()->persist($mesa);
+    }
+
 //    /**
 //     * @return Mesa[] Returns an array of Mesa objects
 //     */
