@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block body %}
+    <h1>Iniciar sesión</h1>
+
+    {% if error %}
+        <div class="card mb-2"><div class="card-body">Error de autenticación: {{ error.message }}</div></div>
+    {% endif %}
+
+    <form method="post">
+        <input type="text" name="_username" placeholder="Usuario" value="{{ ultimo_usuario }}"{% if ultimo_usuario is empty %} autofocus="autofocus"{% endif %} required="required"/>
+        <input type="password" name="_password" placeholder="Contraseña" required="required" {% if ultimo_usuario is not empty %} autofocus="autofocus"{% endif %}/>
+        <button type="submit">Entrar</button>
+    </form>
+{% endblock %}
