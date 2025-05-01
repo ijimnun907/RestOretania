@@ -51,4 +51,24 @@ class MesaController extends AbstractController
 
         return $this->modificar($request, $mesaRepository, $mesa);
     }
+
+    #[Route('/mesa/eliminar/{id}', name: 'mesa_eliminar')]
+    public function eliminar(Request $request, MesaRepository $mesaRepository, Mesa $mesa) : Response
+    {
+        if ($request->request->has('confirmar')){
+            try {
+                $mesaRepository->remove($mesa);
+                $mesaRepository->save();
+                $this->addFlash('success', 'Mesa eliminada con exito');
+                return $this->redirectToRoute('mesa_listar');
+            }
+            catch (\Exception $e) {
+                $this->addFlash('error', 'No se ha podido eliminar la mesa');
+            }
+        }
+
+        return $this->render('mesa/eliminar.html.twig', [
+            'mesa' => $mesa
+        ]);
+    }
 }
