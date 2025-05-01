@@ -99,4 +99,24 @@ class ReservaController extends AbstractController
 
         return $this->json($horas);
     }
+
+    #[Route('/reserva/eliminar/{id}', name: 'reserva_eliminar')]
+    public function eliminar(Request $request, ReservaRepository $reservaRepository, Reserva $reserva) : Response
+    {
+        if ($request->request->has('confirmar')){
+            try {
+                $reservaRepository->remove($reserva);
+                $reservaRepository->save();
+                $this->addFlash('success', 'Reserva eliminada con exito');
+                return $this->redirectToRoute('reservas_listar');
+            }
+            catch (\Exception $exception){
+                $this->addFlash('error', 'No se ha podido eliminar la reserva');
+            }
+        }
+
+        return $this->render('reserva/eliminar.html.twig', [
+            'reserva' => $reserva,
+        ]);
+    }
 }
