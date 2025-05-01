@@ -43,7 +43,7 @@ class MesaController extends AbstractController
         ]);
     }
 
-    #[Route('/libro/nuevo', name: 'libro_nuevo')]
+    #[Route('/mesa/nueva', name: 'mesa_nueva')]
     public function nueva(Request $request, MesaRepository $mesaRepository) : Response
     {
         $mesa = new Mesa();
