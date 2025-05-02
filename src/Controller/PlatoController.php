@@ -99,4 +99,12 @@ class PlatoController extends AbstractController
             'plato' => $plato
         ]);
     }
+
+    #[Route('/plato/detalle/{id}', name: 'plato_detalle', requirements: ['id' => '\d+'])]
+    public function platoDetalle(Plato $plato) : Response
+    {
+        return $this->render('plato/detalle.html.twig', [
+            'plato' => $plato
+        ]);
+    }
 }

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detalle del Plato{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="card mx-auto" style="max-width: 600px;">
+            {% if plato.foto %}
+                <img src="{{ asset('uploads/platos/' ~ plato.foto ) }}" class="card-img-top" alt="{{ plato.nombre }}">
+            {% endif %}
+            <div class="card-body">
+                <h3 class="card-title">{{ plato.nombre }}</h3>
+                <p class="card-text">{{ plato.descripcion }}</p>
+                <p class="card-text">{{ plato.precio }}</p>
+                <hr>
+
+                <p>
+                    <strong>Contiene gluten:</strong>
+                    {% if plato.contieneGluten %}
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                    {% else %}
+                        <i class="bi bi-x-circle-fill text-danger"></i>
+                    {% endif %}
+                </p>
+
+                <p>
+                    <strong>Contiene lactosa:</strong>
+                    {% if plato.contieneLactosa %}
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                    {% else %}
+                        <i class="bi bi-x-circle-fill text-danger"></i>
+                    {% endif %}
+                </p>
+                <a href="{{ path('plato_listar') }}" class="btn btn-secondary mt-3">Volver al listado</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

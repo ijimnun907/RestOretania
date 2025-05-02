@@ -13,7 +13,7 @@
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
                         {% if plato.imagen %}
-                            <img src="{{ asset('images/platos/' ~ plato.imagen) }}" class="card-img-top" alt="{{ plato.nombre }}">
+                            <img src="{{ asset('images/platos/' ~ plato.foto ) }}" class="card-img-top" alt="{{ plato.nombre }}">
                         {% else %}
                             <img src="{{ asset('images/platos/default-plato.png') }}" class="card-img-top" alt="Imagen por defecto">
                         {% endif %}
