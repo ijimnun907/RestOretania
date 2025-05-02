@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detalles de la Mesa{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Detalles de la Mesa #{{ mesa.numero }}</h4>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Número de mesa</dt>
+                    <dd class="col-sm-9">{{ mesa.numero }}</dd>
+
+                    <dt class="col-sm-3">Capacidad</dt>
+                    <dd class="col-sm-9">{{ mesa.capacidad }} personas</dd>
+                </dl>
+
+                <div class="mt-4">
+                    <a href="{{ path('mesa_listar') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver al listado
+                    </a>
+                    <a href="{{ path('mesa_modificar', { id: mesa.id }) }}" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

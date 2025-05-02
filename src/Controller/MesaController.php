@@ -81,4 +81,12 @@ class MesaController extends AbstractController
             'mesas' => $mesas
         ]);
     }
+
+    #[Route('/mesa/detalle/{id}', name: 'mesa_detalle', requirements: ['id'=>'\d+'])]
+    public function mesaDetalle(Mesa $mesa) : Response
+    {
+        return $this->render('mesa/detalle.html.twig', [
+            'mesa' => $mesa
+        ]);
+    }
 }
