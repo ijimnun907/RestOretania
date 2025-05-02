@@ -63,7 +63,12 @@ class ReservaController extends AbstractController
         $fechaHora = \DateTimeImmutable::createFromFormat('Y-m-d H:i', $fecha->format('Y-m-d') . ' ' . $hora);
 
         $reserva->setMesa($mesa);
+        if ($this->isGranted('ROLE_CAMARERO')){
+            $reserva->setUsuario($form->get('usuario')->getData());
+        }
+        else {
         $reserva->setUsuario($this->getUser()); // Establece automáticamente el usuario logueado
+        }
         $reserva->setFechaHora($fechaHora);
 
         $reservaRepository->add($reserva);
@@ -116,6 +121,24 @@ class ReservaController extends AbstractController
         }
 
         return $this->render('reserva/eliminar.html.twig', [
+            'reserva' => $reserva,
+        ]);
+    }
+
+    #[Route('reserva/listar', name: 'reserva_listar')]
+    public function listar(ReservaRepository $reservaRepository) : Response
+    {
+        $reservas = $reservaRepository->findReservaOrdenadaPorFecha();
+
+        return $this->render('reserva/listar.html.twig', [
+            'reservas' => $reservas,
+        ]);
+    }
+
+    #[Route('/reserva/detalle/{id}' , name: 'reserva_detalle')]
+    public function detalleReserva(Reserva $reserva) : Response
+    {
+        return $this->render('reserva/detalle.html.twig', [
             'reserva' => $reserva,
         ]);
     }

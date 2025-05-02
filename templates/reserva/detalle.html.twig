@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detalle de la Reserva{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Detalle de la Reserva</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <td>{{ reserva.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Mesa</th>
+                        <td>Mesa {{ reserva.mesa.numero }}</td>
+                    </tr>
+                    <tr>
+                        <th>Usuario</th>
+                        <td>{{ reserva.usuario.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha y Hora</th>
+                        <td>{{ reserva.fechaHora|date('d/m/Y H:i') }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="{{ path('reserva_listar') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver al listado
+                    </a>
+                    <div>
+                        <a href="{{ path('reserva_editar', { id: reserva.id }) }}" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <a href="{{ path('reserva_eliminar', { id: reserva.id }) }}" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

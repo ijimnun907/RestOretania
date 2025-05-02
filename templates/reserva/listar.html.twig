@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listado de Reservas{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Listado de Reservas</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Mesa</th>
+                        <th>Usuario</th>
+                        <th>Fecha y Hora</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for reserva in reservas %}
+                        <tr>
+                            <td>{{ reserva.id }}</td>
+                            <td>{{ reserva.mesa.numero }}</td>
+                            <td>{{ reserva.usuario.username }}</td>
+                            <td>{{ reserva.fechaHora|date('d/m/Y H:i') }}</td>
+                            <td>
+                                <a href="{{ path('reserva_detalle', {id: reserva.id}) }}" class="btn btn-info btn-sm">
+                                    <i class="fas fa-eye"></i> Ver
+                                </a>
+                                <a href="{{ path('reserva_editar', {id: reserva.id}) }}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                <a href="{{ path('reserva_eliminar', {id: reserva.id}) }}" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">No hay reservas disponibles.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="mt-4">
+                    <a href="{{ path('reserva_nueva') }}" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Crear nueva reserva
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

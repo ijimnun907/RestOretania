@@ -36,6 +36,14 @@ class ReservaRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($reserva);
     }
 
+    public function findReservaOrdenadaPorFecha() : array
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.fechaHora', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Reserva[] Returns an array of Reserva objects
 //     */
