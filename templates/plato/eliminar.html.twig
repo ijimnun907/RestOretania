@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Eliminar Mesa</h1>
+
+    <div class="alert alert-danger">
+        El plato {{ plato.nombre }} será eliminado.
+        Esta acción no se puede deshacer!
+    </div>
+
+    <form method="post">
+        <a href="{{ path('plato_listar') }}" class="btn btn-info">Volver al listado</a>
+        <button type="submit" name="confirmar" class="btn btn-danger">Confirmar</button>
+    </form>
+{% endblock %}
+
