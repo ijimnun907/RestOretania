@@ -25,7 +25,7 @@ class ReservaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->procesarFormularioReserva($form, $reserva, $reservaRepository);
 
-            return $this->redirectToRoute('reserva_nueva'); // Puedes cambiar la ruta donde redirigir después
+            return $this->redirectToRoute('reserva_listar'); // Puedes cambiar la ruta donde redirigir después
         }
 
         return $this->render('reserva/form.html.twig', [
@@ -42,7 +42,7 @@ class ReservaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->procesarFormularioReserva($form, $reserva, $reservaRepository);
 
-            return $this->redirectToRoute('reserva_nueva'); // Igual, puedes redirigir donde quieras
+            return $this->redirectToRoute('reserva_listar'); // Igual, puedes redirigir donde quieras
         }
 
         return $this->render('reserva/form.html.twig', [
@@ -113,7 +113,7 @@ class ReservaController extends AbstractController
                 $reservaRepository->remove($reserva);
                 $reservaRepository->save();
                 $this->addFlash('success', 'Reserva eliminada con exito');
-                return $this->redirectToRoute('reservas_listar');
+                return $this->redirectToRoute('reserva_listar');
             }
             catch (\Exception $exception){
                 $this->addFlash('error', 'No se ha podido eliminar la reserva');

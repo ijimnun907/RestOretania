@@ -30,7 +30,7 @@ class MesaController extends AbstractController
                 else {
                     $this->addFlash('success', 'Cambios guardados con exito');
                 }
-                return $this->redirectToRoute('modificar_ruta');
+                return $this->redirectToRoute('mesa_listar');
             }
             catch (\Exception $e){
                 $this->addFlash('error', 'No se han podido guardar los cambios');
