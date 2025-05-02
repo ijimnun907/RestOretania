@@ -71,4 +71,14 @@ class MesaController extends AbstractController
             'mesa' => $mesa
         ]);
     }
+
+    #[Route('/mesa/listar', name: 'mesa_listar')]
+    public function listar(MesaRepository $mesaRepository) : Response
+    {
+        $mesas = $mesaRepository->findMesaOrdenadaPorCapacidad();
+
+        return $this->render('mesa/listar.html.twig', [
+            'mesas' => $mesas
+        ]);
+    }
 }

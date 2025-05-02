@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listado de Mesas{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Listado de Mesas</h2>
+
+        <table class="table table-hover table-bordered shadow-sm">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Número</th>
+                <th>Capacidad</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for mesa in mesas %}
+                <tr>
+                    <td>{{ mesa.id }}</td>
+                    <td>{{ mesa.numero }}</td>
+                    <td>{{ mesa.capacidad }} personas</td>
+                    <td>
+                        <a href="{{ path('mesa_detalle', {'id': mesa.id }) }}" class="btn btn-sm btn-info">
+                            <i class="fas fa-eye"></i> Ver
+                        </a>
+                        <a href="{{ path('mesa_modificar', {'id': mesa.id }) }}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">No hay mesas registradas.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="mt-4">
+            <a href="{{ path('mesa_nueva') }}" class="btn btn-success">
+                <i class="fas fa-plus"></i> Añadir nueva mesa
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+

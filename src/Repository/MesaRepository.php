@@ -36,6 +36,14 @@ class MesaRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($mesa);
     }
 
+    public function findMesaOrdenadaPorCapacidad() : array
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.capacidad', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Mesa[] Returns an array of Mesa objects
 //     */
