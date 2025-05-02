@@ -3,10 +3,23 @@
 {% block title %} Platos listados {% endblock %}
 
 {% block body %}
-
-    {% for plato in platos %}
-        <div>
-
+    <div class="container mt-4">
+        <div class="row">
+            {% for plato in platos %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        {% if plato.imagen %}
+                            <img src="{{ asset('images/platos/' ~ plato.imagen) }}" class="card-img-top" alt="{{ plato.nombre }}">
+                        {% else %}
+                            <img src="{{ asset('images/platos/default-plato.png') }}" class="card-img-top" alt="Imagen por defecto">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ plato.nombre }}</h5>
+                            <p class="card-text">{{ plato.descripcion }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+    </div>
 {% endblock %}
