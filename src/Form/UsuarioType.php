@@ -8,9 +8,16 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 class UsuarioType extends AbstractType
 {
+    private Security $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -19,7 +26,8 @@ class UsuarioType extends AbstractType
             ->add('telefono', TextType::class)
             ->add('esAdministrador', CheckboxType::class, [
                 'label' => 'Es administrador',
-                'required' => false
+                'required' => false,
+                'disabled' => !$this->security->isGranted('ROLE_ADMIN')
             ])
             ->add('esCamarero', CheckboxType::class, [
                 'label' => 'Es camarero',
