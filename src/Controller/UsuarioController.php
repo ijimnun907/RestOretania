@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Usuario;
+use App\Form\CambiarClaveType;
 use App\Form\RegistrationType;
 use App\Form\UsuarioType;
 use App\Repository\UsuarioRepository;
@@ -129,6 +130,55 @@ class UsuarioController extends AbstractController
     {
         return $this->render('usuario/detalle.html.twig', [
             'usuario' => $usuario
+        ]);
+    }
+
+    #[Route('/cambiar-password', name: 'cambiar_password')]
+    public function cambiarPassword(Request $request, UserPasswordHasherInterface $passwordHasher, UsuarioRepository $usuarioRepository): Response
+    {
+        $user = $this->getUser();
+
+        $form = $this->createForm(CambiarClaveType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(
+                $passwordHasher->hashPassword($user, $form->get('newPassword')->getData())
+            );
+            $usuarioRepository->save();
+            $this->addFlash('success', 'Clave actualizada con éxito');
+            return $this->redirectToRoute('usuario_detalle', ['id' => $user->getId()]);
+        }
+
+        return $this->render('usuario/cambiarPassword.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user
+        ]);
+    }
+
+    #[Route('cambiar-password/{id}', name: 'cambiar_user_password', requirements: ['id'=>'\d+'])]
+    public function cambiarUserPassword(Request $request, UserPasswordHasherInterface $passwordHasher, UsuarioRepository $usuarioRepository, Usuario $user): Response
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $this->redirectToRoute('plato_listar');
+        }
+
+        $form = $this->createForm(CambiarClaveType::class, $user, [
+            'admin' => $user !== $this->getUser()
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(
+                $passwordHasher->hashPassword($user, $form->get('newPassword')->getData())
+            );
+            $usuarioRepository->save();
+            $this->addFlash('success', 'Clave actualizada con éxito');
+            return $this->redirectToRoute('usuario_detalle', ['id' => $user->getId()]);
+        }
+        return $this->render('usuario/cambiarPassword.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user
         ]);
     }
 }
