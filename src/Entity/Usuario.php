@@ -53,6 +53,11 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
+    public function getUsernameAlternative(): ?string
+    {
+        return $this->username;
+    }
+
     public function setUsername(string $username): static
     {
         $this->username = $username;

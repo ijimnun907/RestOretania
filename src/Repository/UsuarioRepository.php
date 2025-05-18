@@ -36,6 +36,15 @@ class UsuarioRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($usuario);
     }
 
+    public function findUsuarioOrdenadoPorNombre() : array
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.username', 'ASC')
+            ->addOrderBy('u.email', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Usuario[] Returns an array of Usuario objects
 //     */
