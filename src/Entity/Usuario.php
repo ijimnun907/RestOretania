@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UsuarioRepository::class)]
 class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
@@ -18,21 +19,34 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'El usuario es un campo obligatorio')]
+    #[Assert\Length(min: 2, max: 255, minMessage: 'El usuario debe tener al menos 2 caracteres', maxMessage: 'El usuario puede tener como maximo 255 caracteres')]
     private ?string $username = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank(message: 'El email es un campo obligatorio')]
+    #[Assert\Length(min: 2, max: 255, minMessage: 'El email debe tener al menos 2 caracteres', maxMessage: 'El email puede tener como maximo 255 caracteres')]
+    #[Assert\Email(message: 'email no valido')]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'El telefono es un campo obligatorio')]
+    #[Assert\Regex(
+        pattern: '/^\+?(\d[\d\s\-]{7,}\d)$/',
+        message: 'El teléfono "{{ value }}" no tiene un formato válido.'
+    )]
     private ?string $telefono = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'La contraseña es un campo obligatorio')]
+    #[Assert\Length(min: 7, max: 255, minMessage: 'La contraseña tiene que tener minimo 7 caracteres', maxMessage: 'La contraseña no puede tener más de 255 caracteres')]
     private ?string $password = null;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $esAdministrador = null;
 
     #[ORM\Column(type: 'boolean')]
+    #[Assert\NotNull(message: 'Este campo no puede estar nulo')]
     private ?bool $esCamarero = null;
 
     #[ORM\OneToMany(targetEntity: Reserva::class, mappedBy: 'usuario')]
