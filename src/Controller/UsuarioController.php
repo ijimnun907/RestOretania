@@ -68,7 +68,7 @@ class UsuarioController extends AbstractController
                 else {
                     $this->addFlash('success', 'Usuario modificado con éxito');
                 }
-                return $this->redirectToRoute('modificar_ruta');
+                return $this->redirectToRoute('usuario_listar');
             }
             catch (\Exception $e){
                 $this->addFlash('error', 'No se han podido guardar los cambios');
@@ -102,7 +102,7 @@ class UsuarioController extends AbstractController
                 $usuarioRepository->remove($usuario);
                 $usuarioRepository->save();
                 $this->addFlash('success', 'Usuario eliminado con exito');
-                return $this->redirectToRoute('modificar_ruta');
+                return $this->redirectToRoute('usuario_listar');
             }
             catch (\Exception $e){
                 $this->addFlash('error', 'No se ha podido eliminar el usuario');
@@ -110,6 +110,24 @@ class UsuarioController extends AbstractController
         }
 
         return $this->render('usuario/eliminar.html.twig', [
+            'usuario' => $usuario
+        ]);
+    }
+
+    #[Route('/usuario/listar', name: 'usuario_listar')]
+    public function listar(UsuarioRepository $usuarioRepository): Response
+    {
+        $usuarios = $usuarioRepository->findUsuarioOrdenadoPorNombre();
+
+        return $this->render('usuario/listar.html.twig', [
+            'usuarios' => $usuarios
+        ]);
+    }
+
+    #[Route('/usuario/detalle/{id}', name: 'usuario_detalle', requirements: ['id'=>'\d+'])]
+    public function usuarioDetalle(Usuario $usuario) : Response
+    {
+        return $this->render('usuario/detalle.html.twig', [
             'usuario' => $usuario
         ]);
     }

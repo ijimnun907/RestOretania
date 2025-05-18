@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detalles del Usuario{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Detalles del Usuario</h4>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">ID</dt>
+                    <dd class="col-sm-9">{{ usuario.id }}</dd>
+
+                    <dt class="col-sm-3">Nombre de usuario</dt>
+                    <dd class="col-sm-9">{{ usuario.username }}</dd>
+
+                    <dt class="col-sm-3">Email</dt>
+                    <dd class="col-sm-9">{{ usuario.email }}</dd>
+
+                    <dt class="col-sm-3">Teléfono</dt>
+                    <dd class="col-sm-9">{{ usuario.telefono }}</dd>
+
+                    <dt class="col-sm-3">Rol</dt>
+                    <dd class="col-sm-9">
+                        {% if usuario.esAdministrador %}
+                            <span class="badge badge-danger">Administrador</span>
+                        {% elseif usuario.esCamarero %}
+                            <span class="badge badge-warning">Camarero</span>
+                        {% else %}
+                            <span class="badge badge-primary">Cliente</span>
+                        {% endif %}
+                    </dd>
+                </dl>
+            </div>
+            <div class="card-footer text-right">
+                <a href="{{ path('usuario_listar') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+                <a href="{{ path('usuario_modificar', { id: usuario.id }) }}" class="btn btn-warning">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
