@@ -6,6 +6,7 @@ use App\Repository\MesaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MesaRepository::class)]
 class Mesa
@@ -16,9 +17,13 @@ class Mesa
     private ?int $id = null;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank(message: 'El numero de mesa es obligatorio')]
+    #[Assert\Positive(message: 'El numero de mesa debe ser positivo')]
     private ?int $numero = null;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank(message: 'La capacidad de mesa es obligatoria')]
+    #[Assert\Positive(message: 'La capacidad de mesa debe ser positiva')]
     private ?int $capacidad = null;
 
     #[ORM\OneToMany(targetEntity: Reserva::class, mappedBy: 'mesa')]
