@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ReservaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReservaRepository::class)]
 class Reserva
@@ -14,14 +15,17 @@ class Reserva
     private ?int $id = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\NotBlank(message: 'La fecha y hora es obligatoria')]
     private ?\DateTimeImmutable $fechaHora = null;
 
     #[ORM\ManyToOne(targetEntity: Usuario::class,inversedBy: 'reservas')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message: 'El usuario es obligatoria')]
     private ?Usuario $usuario = null;
 
     #[ORM\ManyToOne(targetEntity: Mesa::class ,inversedBy: 'reservas')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message: 'La mesa es obligatoria')]
     private ?Mesa $mesa = null;
 
     public function getId(): ?int
