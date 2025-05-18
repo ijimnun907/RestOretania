@@ -17,6 +17,15 @@
                     <dd class="col-sm-9">{{ mesa.capacidad }} personas</dd>
                 </dl>
 
+                <h4 class="mb-0">Reservas de la mesa #{{ mesa.numero }}</h4>
+                <table class="table table-hover table-bordered shadow-sm">
+                    {% for reserva in mesa.reservas %}
+                        <td>{{ reserva.fechaHora }}</td>
+                    {% else %}
+                        <td>No hay reservas disponibles</td>
+                    {% endfor %}
+                </table>
+
                 <div class="mt-4">
                     <a href="{{ path('mesa_listar') }}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Volver al listado
