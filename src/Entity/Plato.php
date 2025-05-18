@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PlatoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlatoRepository::class)]
 class Plato
@@ -14,21 +15,29 @@ class Plato
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 1, max: 255, maxMessage: 'El nombre no puede ser mas largo de 255 caracteres')]
+    #[Assert\NotBlank(message: 'El nombre es un campo obligatorio')]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 1, max: 255, maxMessage: 'La descripción no puede ser mas larga de 255 caracteres')]
+    #[Assert\NotBlank(message: 'La descripción es un campo obligatorio')]
     private ?string $descripcion = null;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank(message: 'El precio del plato es obligatorio')]
+    #[Assert\Positive(message: 'El precio del plato debe ser positivo')]
     private ?int $precio = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $foto = null;
 
     #[ORM\Column(type: 'boolean')]
+    #[Assert\NotNull(message: 'El valor no puede ser nulo')]
     private ?bool $contieneGluten = null;
 
     #[ORM\Column(type: 'boolean')]
+    #[Assert\NotNull(message: 'El valor no puede ser nulo')]
     private ?bool $contieneLactosa = null;
 
     public function getId(): ?int
