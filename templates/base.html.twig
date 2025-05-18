@@ -18,6 +18,30 @@
         {% endblock %}
     </head>
     <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ path('homepage') }}">MiApp</a>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('usuario_detalle', {id: app.user.id}) }}">
+                            Mis datos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-danger ml-2" href="{{ path('app_logout') }}">
+                            Cerrar sesión
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary" href="{{ path('app_login') }}">Iniciar sesión</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
     {% for mensaje in app.flashes('success') %}
         <div style="border: 1px solid black; background-color: darkolivegreen">
             {{ mensaje }}
