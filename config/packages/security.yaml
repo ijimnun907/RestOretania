@@ -11,7 +11,7 @@ security:
     providers:
         proveedor_usuarios:
             entity:
-                class: App\Entity\Socio
+                class: App\Entity\Usuario
                 property: email
     firewalls:
         dev:
