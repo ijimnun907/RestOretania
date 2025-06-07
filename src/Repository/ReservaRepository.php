@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Reserva;
+use App\Entity\Usuario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,6 +40,17 @@ class ReservaRepository extends ServiceEntityRepository
     public function findReservaOrdenadaPorFecha() : array
     {
         return $this->createQueryBuilder('r')
+            ->orderBy('r.fechaHora', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function findReservasDeUsuarioOrdenadas(Usuario $usuario)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.usuario = :usuario')
+            ->setParameter('usuario', $usuario)
             ->orderBy('r.fechaHora', 'ASC')
             ->getQuery()
             ->getResult();

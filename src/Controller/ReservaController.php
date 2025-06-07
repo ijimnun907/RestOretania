@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Reserva;
+use App\Entity\Usuario;
 use App\Form\ReservaType;
 use App\Repository\MesaRepository;
 use App\Repository\ReservaRepository;
@@ -127,10 +128,21 @@ class ReservaController extends AbstractController
         ]);
     }
 
-    #[Route('reserva/listar', name: 'reserva_listar')]
+    #[Route('/reserva/listar', name: 'reserva_listar')]
     public function listar(ReservaRepository $reservaRepository) : Response
     {
-        $reservas = $reservaRepository->findReservaOrdenadaPorFecha();
+        if ($this->isGranted('ROLE_CAMARERO')){
+            $reservas = $reservaRepository->findReservaOrdenadaPorFecha();
+        }
+        else {
+            $usuario = $this->getUser();
+
+            if (!$usuario instanceof Usuario) {
+                throw $this->createAccessDeniedException('Debes estar autenticado para ver tus reservas.');
+            }
+
+            $reservas = $reservaRepository->findReservasDeUsuarioOrdenadas($usuario);
+        }
 
         return $this->render('reserva/listar.html.twig', [
             'reservas' => $reservas,
