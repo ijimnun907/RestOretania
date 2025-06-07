@@ -31,12 +31,14 @@
                         <i class="bi bi-x-circle-fill text-danger"></i>
                     {% endif %}
                 </p>
-                <a href="{{ path('plato_modificar', {'id': plato.id }) }}" class="btn btn-sm btn-warning">
-                    <i class="fas fa-edit"></i> Editar
-                </a>
-                <a href="{{ path('plato_eliminar', { id: plato.id }) }}" class="btn btn-danger">
-                    <i class="fas fa-trash-alt"></i> Eliminar
-                </a>
+                {% if is_granted('ROLE_CAMARERO') %}
+                    <a href="{{ path('plato_modificar', {'id': plato.id }) }}" class="btn btn-sm btn-warning">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <a href="{{ path('plato_eliminar', { id: plato.id }) }}" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> Eliminar
+                    </a>
+                {% endif %}
                 <a href="{{ path('plato_listar') }}" class="btn btn-secondary mt-3">Volver al listado</a>
             </div>
         </div>

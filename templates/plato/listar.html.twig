@@ -8,6 +8,13 @@
 
 {% block body %}
     <div class="container mt-4">
+        {% if is_granted('ROLE_CAMARERO') %}
+            <div class="mt-4">
+                <a href="{{ path('plato_nuevo') }}" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Añadir nuevo plato
+                </a>
+            </div>
+        {% endif %}
         <div class="row">
             {% for plato in platos %}
                 <div class="col-md-4 mb-4">
