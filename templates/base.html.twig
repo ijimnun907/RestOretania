@@ -18,40 +18,77 @@
         {% endblock %}
     </head>
     <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{{ path('homepage') }}">MiApp</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{{ path('homepage') }}">Restaurante</a>
 
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-                {% if is_granted('ROLE_USER') %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('usuario_detalle', {id: app.user.id}) }}">
-                            Mis datos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-danger ml-2" href="{{ path('app_logout') }}">
-                            Cerrar sesión
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="{{ path('app_login') }}">Iniciar sesión</a>
-                    </li>
-                {% endif %}
-            </ul>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item {{ app.request.attributes.get('_route') starts with 'plato' ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ path('plato_listar') }}">Platos</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_CAMARERO') %}
+                        <li class="nav-item {{ app.request.attributes.get('_route') starts with 'mesa' ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ path('mesa_listar') }}">Mesas</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item {{ app.request.attributes.get('_route') starts with 'reserva' ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ path('reserva_listar') }}">Reservas</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item {{ app.request.attributes.get('_route') starts with 'usuario' ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ path('usuario_listar') }}">Usuarios</a>
+                        </li>
+                    {% endif %}
+                </ul>
+
+                <ul class="navbar-nav">
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('usuario_detalle', {'id': app.user.id}) }}">
+                                {{ app.user.userIdentifier }}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="{{ path('app_logout') }}">
+                                <i class="fa-solid fa-power-off"></i> Exit
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="me-auto">
+                            <a class="nav-link" href="{{ path('app_login') }}">
+                                <i class="fa-solid fa-key"></i> Log in
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </nav>
-    {% for mensaje in app.flashes('success') %}
-        <div style="border: 1px solid black; background-color: darkolivegreen">
-            {{ mensaje }}
-        </div>
-    {% endfor %}
-    {% for mensaje in app.flashes('error') %}
-        <div style="border: 1px solid black; background-color: darkred">
-            {{ mensaje }}
-        </div>
-    {% endfor %}
+
+    <div class="container">
+        {% for mensaje in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fa fa-check-circle"></i> {{ mensaje }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+        {% endfor %}
+        {% for mensaje in app.flashes('error') %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fa fa-circle-exclamation"></i> {{ mensaje }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+        {% endfor %}
+    </div>
         {% block body %}{% endblock %}
     </body>
 </html>
