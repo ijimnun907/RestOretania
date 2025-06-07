@@ -156,7 +156,7 @@ class UsuarioController extends AbstractController
         ]);
     }
 
-    #[Route('cambiar-password/{id}', name: 'cambiar_user_password', requirements: ['id'=>'\d+'])]
+    #[Route('/cambiar-password/{id}', name: 'cambiar_user_password', requirements: ['id'=>'\d+'])]
     public function cambiarUserPassword(Request $request, UserPasswordHasherInterface $passwordHasher, UsuarioRepository $usuarioRepository, Usuario $user): Response
     {
         if ($this->isGranted('ROLE_ADMIN')) {
