@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Plato;
 use App\Form\PlatoType;
 use App\Repository\PlatoRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+#[IsGranted("ROLE_USER")]
 class PlatoController extends AbstractController
 {
     #[Route('/plato/listar', name: 'plato_listar')]
@@ -23,6 +25,7 @@ class PlatoController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_CAMARERO")]
     #[Route('/plato/modificar/{id}', name: 'plato_modificar')]
     public function modificar(Request $request, PlatoRepository $platoRepository, Plato $plato, SluggerInterface $slugger) : Response
     {
@@ -71,6 +74,7 @@ class PlatoController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_CAMARERO")]
     #[Route('/plato/nuevo', name: 'plato_nuevo')]
     public function nuevo(Request $request, PlatoRepository $platoRepository, SluggerInterface $slugger) : Response
     {
@@ -80,6 +84,7 @@ class PlatoController extends AbstractController
         return $this->modificar($request, $platoRepository, $plato, $slugger);
     }
 
+    #[IsGranted("ROLE_CAMARERO")]
     #[Route('/plato/eliminar/{id}', name: 'plato_eliminar')]
     public function eliminar(Request $request, PlatoRepository $platoRepository, Plato $plato) : Response
     {
