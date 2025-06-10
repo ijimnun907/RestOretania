@@ -7,7 +7,9 @@ use App\Form\CambiarClaveType;
 use App\Form\RegistrationType;
 use App\Form\UsuarioType;
 use App\Repository\UsuarioRepository;
+use App\Security\Voter\UsuarioVoter;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -51,6 +53,7 @@ class UsuarioController extends AbstractController
     }
 
     // Este es solo para admins, igual que crear
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/usuario/modificar/{id}', name: 'usuario_modificar')]
     public function modificar(Request $request, UsuarioRepository $usuarioRepository, Usuario $usuario) : Response
     {
@@ -81,6 +84,7 @@ class UsuarioController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/usuario/nuevo', name: 'usuario_nuevo')]
     public function nuevo(Request $request, UsuarioRepository $usuarioRepository, UserPasswordHasherInterface $passwordHasher) : Response
     {
@@ -95,6 +99,7 @@ class UsuarioController extends AbstractController
         return $this->modificar($request, $usuarioRepository, $usuario);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/usuario/eliminar/{id}', name: 'usuario_eliminar')]
     public function eliminar(Request $request, UsuarioRepository $usuarioRepository, Usuario $usuario) : Response
     {
@@ -115,6 +120,7 @@ class UsuarioController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_CAMARERO")]
     #[Route('/usuario/listar', name: 'usuario_listar')]
     public function listar(UsuarioRepository $usuarioRepository): Response
     {
@@ -128,11 +134,14 @@ class UsuarioController extends AbstractController
     #[Route('/usuario/detalle/{id}', name: 'usuario_detalle', requirements: ['id'=>'\d+'])]
     public function usuarioDetalle(Usuario $usuario) : Response
     {
+        $this->denyAccessUnlessGranted(UsuarioVoter::VIEW, $usuario);
+
         return $this->render('usuario/detalle.html.twig', [
             'usuario' => $usuario
         ]);
     }
 
+    #[IsGranted("ROLE_USER")]
     #[Route('/cambiar-password', name: 'cambiar_password')]
     public function cambiarPassword(Request $request, UserPasswordHasherInterface $passwordHasher, UsuarioRepository $usuarioRepository): Response
     {
@@ -156,13 +165,10 @@ class UsuarioController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/cambiar-password/{id}', name: 'cambiar_user_password', requirements: ['id'=>'\d+'])]
     public function cambiarUserPassword(Request $request, UserPasswordHasherInterface $passwordHasher, UsuarioRepository $usuarioRepository, Usuario $user): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $this->redirectToRoute('plato_listar');
-        }
-
         $form = $this->createForm(CambiarClaveType::class, $user, [
             'admin' => $user !== $this->getUser()
         ]);

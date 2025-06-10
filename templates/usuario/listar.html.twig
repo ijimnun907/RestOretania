@@ -34,15 +34,22 @@
                         {% endif %}
                     </td>
                     <td class="text-center">
-                        <a href="{{ path('usuario_detalle', { id: usuario.id }) }}" class="btn btn-sm btn-info">
-                            <i class="fas fa-eye"></i> Ver
-                        </a>
-                        <a href="{{ path('usuario_modificar', { id: usuario.id }) }}" class="btn btn-sm btn-warning">
-                            <i class="fas fa-edit"></i> Editar
-                        </a>
-                        <a href="{{ path('usuario_eliminar', { id: usuario.id }) }}" class="btn btn-sm btn-danger">
-                            <i class="fas fa-trash"></i> Eliminar
-                        </a>
+                        {% if is_granted('ROLE_CAMARERO') %}
+                            <a href="{{ path('usuario_detalle', { id: usuario.id }) }}" class="btn btn-sm btn-info">
+                                <i class="fas fa-eye"></i> Ver
+                            </a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('usuario_modificar', { id: usuario.id }) }}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('usuario_eliminar', { id: usuario.id }) }}" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </a>
+                        {% endif %}
+
                     </td>
                 </tr>
             {% else %}
@@ -53,10 +60,12 @@
             </tbody>
         </table>
 
-        <div class="text-right mt-4">
-            <a href="{{ path('usuario_nuevo') }}" class="btn btn-success">
-                <i class="fas fa-user-plus"></i> Añadir Usuario
-            </a>
-        </div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="text-right mt-4">
+                <a href="{{ path('usuario_nuevo') }}" class="btn btn-success">
+                    <i class="fas fa-user-plus"></i> Añadir Usuario
+                </a>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
