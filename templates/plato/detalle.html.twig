@@ -6,7 +6,7 @@
     <div class="container mt-4">
         <div class="card mx-auto" style="max-width: 600px;">
             {% if plato.foto %}
-                <img src="{{ asset('uploads/platos/' ~ plato.foto ) }}" class="card-img-top" alt="{{ plato.nombre }}">
+                <img src="{{ asset('images/platos/' ~ plato.foto ) }}" class="card-img-top" alt="{{ plato.nombre }}">
             {% endif %}
             <div class="card-body">
                 <h3 class="card-title">{{ plato.nombre }}</h3>
