@@ -51,7 +51,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotNull(message: 'Este campo no puede estar nulo')]
     private ?bool $esCamarero = null;
 
-    #[ORM\OneToMany(targetEntity: Reserva::class, mappedBy: 'usuario')]
+    #[ORM\OneToMany(targetEntity: Reserva::class, mappedBy: 'usuario', cascade: ['remove'], orphanRemoval: true)]
     private Collection $reservas;
 
     public function __construct()

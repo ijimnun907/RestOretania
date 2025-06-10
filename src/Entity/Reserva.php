@@ -19,13 +19,13 @@ class Reserva
     private ?\DateTimeImmutable $fechaHora = null;
 
     #[ORM\ManyToOne(targetEntity: Usuario::class,inversedBy: 'reservas')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotBlank(message: 'El usuario es obligatoria')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    #[Assert\NotNull(message: 'El usuario es obligatoria')]
     private ?Usuario $usuario = null;
 
     #[ORM\ManyToOne(targetEntity: Mesa::class ,inversedBy: 'reservas')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotBlank(message: 'La mesa es obligatoria')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    #[Assert\NotNull(message: 'La mesa es obligatoria')]
     private ?Mesa $mesa = null;
 
     public function getId(): ?int

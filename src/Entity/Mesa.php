@@ -26,7 +26,7 @@ class Mesa
     #[Assert\Positive(message: 'La capacidad de mesa debe ser positiva')]
     private ?int $capacidad = null;
 
-    #[ORM\OneToMany(targetEntity: Reserva::class, mappedBy: 'mesa')]
+    #[ORM\OneToMany(targetEntity: Reserva::class, mappedBy: 'mesa', cascade: ['remove'], orphanRemoval: true)]
     private Collection $reservas;
 
     public function __construct()
