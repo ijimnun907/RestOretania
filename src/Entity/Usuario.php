@@ -47,8 +47,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $esAdministrador = null;
 
-    #[ORM\Column(type: 'boolean')]
-    #[Assert\NotNull(message: 'Este campo no puede estar nulo')]
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $esCamarero = null;
 
     #[ORM\OneToMany(targetEntity: Reserva::class, mappedBy: 'usuario', cascade: ['remove'], orphanRemoval: true)]

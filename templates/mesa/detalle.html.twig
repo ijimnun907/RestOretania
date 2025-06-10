@@ -20,7 +20,7 @@
                 <h4 class="mb-0">Reservas de la mesa #{{ mesa.numero }}</h4>
                 <table class="table table-hover table-bordered shadow-sm">
                     {% for reserva in mesa.reservas %}
-                        <td>{{ reserva.fechaHora }}</td>
+                        <td>{{ reserva.fechaHora|date('d/m/Y H:i') }}</td>
                     {% else %}
                         <td>No hay reservas disponibles</td>
                     {% endfor %}

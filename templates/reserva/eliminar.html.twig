@@ -4,7 +4,7 @@
     <h1>Eliminar Mesa</h1>
 
     <div class="alert alert-danger">
-        La reserva a las {{ reserva.fechaHora }} de la mesa {{ reserva.mesa }} será eliminada.
+        La reserva a las {{ reserva.fechaHora|date('d/m/Y H:i') }} de la mesa {{ reserva.mesa.numero }} será eliminada.
         Esta acción no se puede deshacer!
     </div>
 

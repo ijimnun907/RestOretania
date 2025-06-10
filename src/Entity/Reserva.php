@@ -15,7 +15,6 @@ class Reserva
     private ?int $id = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\NotBlank(message: 'La fecha y hora es obligatoria')]
     private ?\DateTimeImmutable $fechaHora = null;
 
     #[ORM\ManyToOne(targetEntity: Usuario::class,inversedBy: 'reservas')]

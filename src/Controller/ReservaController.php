@@ -26,8 +26,8 @@ class ReservaController extends AbstractController
         $form = $this->createForm(ReservaType::class, $reserva);
 
         $form->handleRequest($request);
-        $this->procesarFormularioReserva($form, $reserva, $reservaRepository);
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->procesarFormularioReserva($form, $reserva, $reservaRepository);
             return $this->redirectToRoute('reserva_listar'); // Puedes cambiar la ruta donde redirigir después
         }
 
@@ -44,8 +44,8 @@ class ReservaController extends AbstractController
         $form = $this->createForm(ReservaType::class, $reserva);
 
         $form->handleRequest($request);
-        $this->procesarFormularioReserva($form, $reserva, $reservaRepository);
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->procesarFormularioReserva($form, $reserva, $reservaRepository);
             return $this->redirectToRoute('reserva_listar'); // Igual, puedes redirigir donde quieras
         }
 
@@ -60,9 +60,9 @@ class ReservaController extends AbstractController
      */
     private function procesarFormularioReserva(FormInterface $form, Reserva $reserva, ReservaRepository $reservaRepository): void
     {
-        if (!$form->isSubmitted()) {
-            return;
-        }
+//        if (!$form->isSubmitted()) {
+//            return;
+//        }
 
         $mesa = $form->get('mesa')->getData();
         $fecha = $form->get('fecha')->getData();

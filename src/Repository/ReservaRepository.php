@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Mesa;
 use App\Entity\Reserva;
 use App\Entity\Usuario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -68,6 +69,20 @@ class ReservaRepository extends ServiceEntityRepository
             ->setParameter('inicio', $inicio)
             ->setParameter('fin', $fin)
             ->orderBy('r.fechaHora', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function findReservasPorFechaYMesa(\DateTimeInterface $fecha, Mesa $mesa): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.mesa = :mesa')
+            ->andWhere('r.fechaHora >= :start')
+            ->andWhere('r.fechaHora < :end')
+            ->setParameter('mesa', $mesa)
+            ->setParameter('start', $fecha->format('Y-m-d 00:00:00'))
+            ->setParameter('end', $fecha->format('Y-m-d 23:59:59'))
             ->getQuery()
             ->getResult();
     }
