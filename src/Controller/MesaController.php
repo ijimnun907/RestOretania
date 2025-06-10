@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted("ROLE_CAMARERO")]
 class MesaController extends AbstractController
 {
-    #[Route('/mesa/modificar/{id}', 'mesa_modificar')]
+    #[Route('/mesa/modificar/{id}', name: 'mesa_modificar')]
     public function modificar(Request $request, MesaRepository $mesaRepository, Mesa $mesa) : Response
     {
         $form = $this->createForm(MesaType::class, $mesa);
