@@ -7,6 +7,8 @@ use App\Entity\Usuario;
 use App\Form\ReservaType;
 use App\Repository\MesaRepository;
 use App\Repository\ReservaRepository;
+use App\Security\Voter\ReservaVoter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[IsGranted("ROLE_USER")]
 class ReservaController extends AbstractController
 {
     #[Route('/reserva/nueva', name: 'reserva_nueva')]
@@ -36,6 +39,8 @@ class ReservaController extends AbstractController
     #[Route('/reserva/editar/{id}', name: 'reserva_editar')]
     public function editar(Reserva $reserva, Request $request, ReservaRepository $reservaRepository): Response
     {
+        $this->denyAccessUnlessGranted(ReservaVoter::EDIT, $reserva);
+
         $form = $this->createForm(ReservaType::class, $reserva);
 
         $form->handleRequest($request);
@@ -108,6 +113,7 @@ class ReservaController extends AbstractController
         return $this->json($horas);
     }
 
+    #[IsGranted('ROLE_CAMARERO')]
     #[Route('/reserva/eliminar/{id}', name: 'reserva_eliminar')]
     public function eliminar(Request $request, ReservaRepository $reservaRepository, Reserva $reserva) : Response
     {
@@ -149,6 +155,7 @@ class ReservaController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_CAMARERO")]
     #[Route('/reserva/hoy', name: 'reserva_hoy')]
     public function listarReservasDeHoy(ReservaRepository $reservaRepository) : Response
     {
@@ -162,6 +169,8 @@ class ReservaController extends AbstractController
     #[Route('/reserva/detalle/{id}' , name: 'reserva_detalle')]
     public function detalleReserva(Reserva $reserva) : Response
     {
+        $this->denyAccessUnlessGranted(ReservaVoter::EDIT, $reserva);
+
         return $this->render('reserva/detalle.html.twig', [
             'reserva' => $reserva,
         ]);

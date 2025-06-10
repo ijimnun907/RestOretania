@@ -34,12 +34,16 @@
                         <i class="fas fa-arrow-left"></i> Volver al listado
                     </a>
                     <div>
-                        <a href="{{ path('reserva_editar', { id: reserva.id }) }}" class="btn btn-warning">
-                            <i class="fas fa-edit"></i> Editar
-                        </a>
-                        <a href="{{ path('reserva_eliminar', { id: reserva.id }) }}" class="btn btn-danger">
-                            <i class="fas fa-trash-alt"></i> Eliminar
-                        </a>
+                        {% if is_granted('POST_EDIT', reserva) %}
+                            <a href="{{ path('reserva_editar', { id: reserva.id }) }}" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                        {% endif %}
+                        {% if is_granted('ROLE_CAMARERO') %}
+                            <a href="{{ path('reserva_eliminar', { id: reserva.id }) }}" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i> Eliminar
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

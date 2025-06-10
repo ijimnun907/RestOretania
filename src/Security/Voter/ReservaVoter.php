@@ -2,13 +2,13 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Usuario;
+use App\Entity\Reserva;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UsuarioVoter extends Voter
+class ReservaVoter extends Voter
 {
     private Security $security;
 
@@ -16,29 +16,31 @@ class UsuarioVoter extends Voter
     {
         $this->security = $security;
     }
-    public const VIEW = 'POST_VIEW';
+    public const EDIT = 'POST_EDIT';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::VIEW])
-            && $subject instanceof Usuario;
+        return in_array($attribute, [self::EDIT])
+            && $subject instanceof Reserva;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         // if the user is anonymous, do not grant access
-        assert($user instanceof UserInterface);
+        if (!$user instanceof UserInterface) {
+            return false;
+        }
 
-        assert($subject instanceof Usuario);
+        assert($subject instanceof Reserva);
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-            case self::VIEW:
+            case self::EDIT:
                 return $this->security->isGranted('ROLE_CAMARERO') ||
-                    $subject === $user;
+                    $subject->getUsuario() === $user;
                 break;
         }
 
