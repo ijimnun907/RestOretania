@@ -19,7 +19,6 @@ class Reserva
 
     #[ORM\ManyToOne(targetEntity: Usuario::class,inversedBy: 'reservas')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    #[Assert\NotNull(message: 'El usuario es obligatoria')]
     private ?Usuario $usuario = null;
 
     #[ORM\ManyToOne(targetEntity: Mesa::class ,inversedBy: 'reservas')]
