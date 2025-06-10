@@ -12,7 +12,9 @@ class SecurityController extends AbstractController
     #[Route('/', name: 'app_portada')]
     public function index(): Response
     {
-        return $this->redirectToRoute('app_login');
+        return $this->render('security/homepage.html.twig', [
+
+        ]);
     }
 
     #[Route('/entrar', name: 'app_login')]
