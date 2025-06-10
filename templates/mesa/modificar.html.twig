@@ -5,7 +5,7 @@
 {% block body %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <a class="btn btn-secondary">Volver</a>
+    <a href="{{ path('mesa_listar') }}" class="btn btn-secondary">Volver</a>
     <button type="submit">Guardar</button>
     {{ form_end(form) }}
 {% endblock %}
