@@ -149,6 +149,16 @@ class ReservaController extends AbstractController
         ]);
     }
 
+    #[Route('/reserva/hoy', name: 'reserva_hoy')]
+    public function listarReservasDeHoy(ReservaRepository $reservaRepository) : Response
+    {
+        $reservas = $reservaRepository->findReservasDeHoy();
+
+        return $this->render('reserva/reservas_hoy.html.twig', [
+            'reservas' => $reservas,
+        ]);
+    }
+
     #[Route('/reserva/detalle/{id}' , name: 'reserva_detalle')]
     public function detalleReserva(Reserva $reserva) : Response
     {

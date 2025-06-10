@@ -56,6 +56,22 @@ class ReservaRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+    public function findReservasDeHoy(): array
+    {
+        $inicio = new \DateTimeImmutable('today midnight');
+        $fin = $inicio->modify('+1 day');
+
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.fechaHora >= :inicio')
+            ->andWhere('r.fechaHora < :fin')
+            ->setParameter('inicio', $inicio)
+            ->setParameter('fin', $fin)
+            ->orderBy('r.fechaHora', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Reserva[] Returns an array of Reserva objects
 //     */
