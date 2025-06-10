@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Mesa;
 use App\Form\MesaType;
 use App\Repository\MesaRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[IsGranted("ROLE_CAMARERO")]
 class MesaController extends AbstractController
 {
     #[Route('/mesa/modificar/{id}', 'mesa_modificar')]
@@ -52,6 +54,7 @@ class MesaController extends AbstractController
         return $this->modificar($request, $mesaRepository, $mesa);
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/mesa/eliminar/{id}', name: 'mesa_eliminar')]
     public function eliminar(Request $request, MesaRepository $mesaRepository, Mesa $mesa) : Response
     {
