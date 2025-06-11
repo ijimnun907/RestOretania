@@ -5,7 +5,43 @@
 {% block body %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
+    <img id="foto-preview" src="#" alt="Vista previa de la nueva imagen" style="display: none; max-width: 250px; margin-top: 15px; border-radius: 5px;"/>
     <a href="{{ path('plato_listar') }}" class="btn btn-secondary">Volver</a>
     <button type="submit">Guardar</button>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Usamos el id que Symfony genera para el campo 'foto'
+            const fotoInput = document.getElementById('{{ form.fotoFile.vars.id }}');
+
+            // El contenedor de la vista previa que hemos añadido antes
+            const fotoPreview = document.getElementById('foto-preview');
+
+            // Asegurarnos de que ambos elementos existen en la página
+            if (fotoInput && fotoPreview) {
+                // Añadimos un "escuchador" para el evento 'change' (cuando se selecciona un archivo)
+                fotoInput.addEventListener('change', function(event) {
+
+                    // Obtenemos el archivo que el usuario ha seleccionado
+                    const file = event.target.files[0];
+
+                    if (file) {
+                        // FileReader nos permite leer el contenido del archivo
+                        const reader = new FileReader();
+
+                        // Cuando el archivo se ha leído...
+                        reader.onload = function(e) {
+                            // ...asignamos su contenido como 'src' a nuestra imagen...
+                            fotoPreview.src = e.target.result;
+                            // ...y la hacemos visible.
+                            fotoPreview.style.display = 'block';
+                        }
+
+                        // Iniciamos la lectura del archivo para que se dispare el evento 'onload'
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+    </script>
     {{ form_end(form) }}
 {% endblock %}
