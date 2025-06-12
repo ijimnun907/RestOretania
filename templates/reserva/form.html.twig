@@ -1,17 +1,45 @@
 {% extends 'base.html.twig' %}
 {% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
-{% block title %} Reserva {% endblock %}
+
+{% block title %}Hacer una Reserva{% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('JSscripts/horas-reservadas.js') }}"></script>
 {% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_row(form.mesa) }}
-    {{ form_row(form.fecha) }}
-    {{ form_row(form.hora) }}
-    <a href="{{ path('reserva_listar') }}" class="btn btn-secondary">Volver</a>
-    <button class="btn btn-success">Reservar</button>
-    {{ form_end(form) }}
+    <div class="container mt-5">
+        {# 1. Centramos el contenido en la página con la rejilla de Bootstrap #}
+        <div class="row justify-content-center">
+            {# 2. Limitamos el ancho máximo del formulario a 8 columnas (en pantallas medianas o más) #}
+            <div class="col-md-8">
+
+                {# 3. Envolvemos todo en una 'card' para un mejor aspecto visual #}
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h1 class="card-title mb-4">Reserva</h1>
+
+                        {{ form_start(form) }}
+
+                        {# Dejamos que el tema horizontal haga su trabajo dentro de nuestro contenedor #}
+                        {{ form_row(form.mesa) }}
+                        {{ form_row(form.fecha) }}
+                        {{ form_row(form.hora) }}
+                        {{ form_row(form.usuario) }}
+
+                        {# 4. Agrupamos los botones y los alineamos a la derecha para que coincida con el layout #}
+                        <div class="form-group row">
+                            <div class="col-sm-10 offset-sm-2">
+                                <button type="submit" class="btn btn-success">Reservar</button>
+                                <a href="{{ path('reserva_listar') }}" class="btn btn-secondary">Volver</a>
+                            </div>
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 {% endblock %}

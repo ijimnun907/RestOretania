@@ -1,71 +1,77 @@
 {% extends 'base.html.twig' %}
 {% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
 
-
 {% block body %}
-    {{ form_start(form) }}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-9"> {# Le damos un poco más de ancho que al otro formulario #}
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="card-title mb-4">
+                        {{ form.vars.data.id ? 'Editar Plato' : 'Añadir Nuevo Plato' }}
+                    </h1>
 
-    {# Renderizamos los campos uno por uno para tener control #}
-    {{ form_row(form.nombre) }}
-    {{ form_row(form.descripcion) }}
-    {{ form_row(form.precio) }}
+                    {{ form_start(form) }}
 
-    {# --- INICIO DEL CAMBIO --- #}
-    {# Fila personalizada para el campo de la foto y su previsualización #}
-    <div class="form-group row">
-        {{ form_label(form.fotoFile, null, {'label_attr': {'class': 'col-sm-2'}}) }}
-        <div class="col-sm-10">
-            {{ form_widget(form.fotoFile) }}
-            {{ form_errors(form.fotoFile) }}
+                    {# Renderizamos los campos individualmente para poder insertar la previsualización #}
+                    {{ form_row(form.nombre) }}
+                    {{ form_row(form.descripcion) }}
+                    {{ form_row(form.precio) }}
 
-            {# La previsualización ahora está dentro de la columna del campo #}
-            <img id="foto-preview" src="#" alt="Vista previa de la nueva imagen" style="display: none; max-width: 200px; margin-top: 10px; border-radius: 5px;"/>
+                    {# Fila personalizada para la foto, manteniendo el estilo horizontal #}
+                    <div class="form-group row">
+                        {{ form_label(form.fotoFile, null, {'label_attr': {'class': 'col-sm-2'}}) }}
+                        <div class="col-sm-10">
+                            {{ form_widget(form.fotoFile) }}
+                            {{ form_errors(form.fotoFile) }}
+
+                            {# Contenedor para la imagen actual y la previsualización #}
+                            <div class="mt-2">
+                                {% if form.vars.data.foto %}
+                                    <img src="{{ asset('uploads/platos/' ~ form.vars.data.foto) }}" alt="Foto actual" style="max-width: 150px; border-radius: 5px; margin-right: 15px; vertical-align: middle;">
+                                {% endif %}
+                                <img id="foto-preview" src="#" alt="Vista previa" style="display: none; max-width: 150px; border-radius: 5px; vertical-align: middle;"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ form_row(form.contieneGluten) }}
+                    {{ form_row(form.contieneLactosa) }}
+
+                    {# Botones alineados con el resto de los campos #}
+                    <div class="form-group row mt-4">
+                        <div class="col-sm-10 offset-sm-2">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <a href="{{ path('plato_listar') }}" class="btn btn-secondary">Volver</a>
+                        </div>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
         </div>
     </div>
-    {# --- FIN DEL CAMBIO --- #}
+</div>
 
-    {{ form_row(form.contieneGluten) }}
-    {{ form_row(form.contieneLactosa) }}
-
-    {# La previsualización ya no está aquí #}
-    <a href="{{ path('plato_listar') }}" class="btn btn-secondary">Volver</a>
-    <button type="submit" class="btn btn-primary">Guardar</button>
-
-    {# El script no necesita ningún cambio #}
+{# El script no necesita cambios y se puede quedar en su propio bloque #}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Usamos el id que Symfony genera para el campo 'foto'
             const fotoInput = document.getElementById('{{ form.fotoFile.vars.id }}');
-
-            // El contenedor de la vista previa que hemos añadido antes
             const fotoPreview = document.getElementById('foto-preview');
 
-            // Asegurarnos de que ambos elementos existen en la página
             if (fotoInput && fotoPreview) {
-                // Añadimos un "escuchador" para el evento 'change' (cuando se selecciona un archivo)
                 fotoInput.addEventListener('change', function(event) {
-
-                    // Obtenemos el archivo que el usuario ha seleccionado
                     const file = event.target.files[0];
-
                     if (file) {
-                        // FileReader nos permite leer el contenido del archivo
                         const reader = new FileReader();
-
-                        // Cuando el archivo se ha leído...
                         reader.onload = function(e) {
-                            // ...asignamos su contenido como 'src' a nuestra imagen...
                             fotoPreview.src = e.target.result;
-                            // ...y la hacemos visible.
-                            fotoPreview.style.display = 'block';
+                            fotoPreview.style.display = 'inline-block';
                         }
-
-                        // Iniciamos la lectura del archivo para que se dispare el evento 'onload'
                         reader.readAsDataURL(file);
                     }
                 });
             }
         });
     </script>
-    {{ form_end(form) }}
 {% endblock %}
