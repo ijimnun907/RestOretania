@@ -65,19 +65,9 @@ final class UsuarioFactory extends PersistentProxyObjectFactory
         ];
     }
 
-    /**
-     * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#initialization
-     */
-    protected function initialize(): self
+    protected function initialize(): static
     {
-        return $this
-            ->afterInstantiate(function(Usuario $usuario, array $attributes) {
-                // Hashear la contraseña por defecto si no se proporciona una
-                if (!isset($attributes['password'])) {
-                    $hashedPassword = $this->passwordHasher->hashPassword($usuario, 'password123');
-                    $usuario->setPassword($hashedPassword);
-                }
-            })
+        return $this// ->afterInstantiate(function(Usuario $usuario): void {})
             ;
     }
 }

@@ -50,7 +50,9 @@ class AppFixtures extends Fixture
         );
         $camarero->setPassword($hashedPassword);
         $manager->persist($camarero);
-        UsuarioFactory::createMany(20);
+        UsuarioFactory::createMany(20, [
+            'password' => $this->passwordHasher->hashPassword(new Usuario(), 'password123'),
+        ]);
 
         PlatoFactory::createOne([
             'nombre' => 'Macarrones',
@@ -97,11 +99,7 @@ class AppFixtures extends Fixture
         $mesas = MesaFactory::all();
 
         // Usamos la lista de horas válidas que nos proporcionaste.
-        $horasValidas = [
-            '13:00', '13:15', '13:30', '13:45', '14:00', '14:15', '14:30', '14:45', '15:00', '15:15',
-            '17:00', '17:15', '17:30', '17:45', '18:00', '18:15', '18:30', '18:45', '19:00', '19:15', '19:30', '19:45',
-            '20:00', '20:15', '20:30', '20:45', '21:00', '21:15', '21:30', '21:45', '22:00'
-        ];
+        $horasValidas = ['13:00', '13:45', '14:30', '15:15', '16:00', '16:45', '17:30', '18:15', '19:00', '19:45', '20:30', '21:15', '22:00'];
 
         // Creamos un "pool" de todos los huecos disponibles para los próximos 7 días.
         $slotsDisponibles = [];
@@ -124,7 +122,7 @@ class AppFixtures extends Fixture
         shuffle($slotsDisponibles);
 
         // Decidimos cuántas reservas crear (por ejemplo, 150, o menos si no hay tantos huecos).
-        $numeroDeReservasACrear = min(150, count($slotsDisponibles));
+        $numeroDeReservasACrear = min(40, count($slotsDisponibles));
         $slotsParaReservar = array_slice($slotsDisponibles, 0, $numeroDeReservasACrear);
 
         // Creamos una reserva para cada hueco único seleccionado.

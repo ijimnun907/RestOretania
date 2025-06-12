@@ -12,7 +12,7 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
@@ -60,13 +60,13 @@
                         </li>
                         <li>
                             <a class="nav-link" href="{{ path('app_logout') }}">
-                                <i class="fa-solid fa-power-off"></i> Exit
+                                <i class="fas fa-power-off"></i> Exit
                             </a>
                         </li>
                     {% else %}
                         <li class="me-auto">
                             <a class="nav-link" href="{{ path('app_login') }}">
-                                <i class="fa-solid fa-key"></i> Log in
+                                <i class="fas fa-key"></i> Log in
                             </a>
                         </li>
                     {% endif %}
@@ -79,16 +79,28 @@
         {% for mensaje in app.flashes('success') %}
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="fa fa-check-circle"></i> {{ mensaje }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+
+                {# Este es el botón de cierre correcto para Bootstrap 4 #}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         {% endfor %}
         {% for mensaje in app.flashes('error') %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="fa fa-circle-exclamation"></i> {{ mensaje }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                <i class="fa fa-check-circle"></i> {{ mensaje }}
+
+                {# Este es el botón de cierre correcto para Bootstrap 4 #}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         {% endfor %}
     </div>
         {% block body %}{% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    </body>
     </body>
 </html>

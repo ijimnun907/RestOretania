@@ -46,7 +46,7 @@ class ReservaType extends AbstractType
                 'multiple' => false,
                 'required' => true,
                 'choice_label' => function ($mesa) {
-                    return 'Mesa ' . $mesa->getNumero() . 'capacidad: ' . $mesa->getCapacidad() . ')';
+                    return 'Mesa ' . $mesa->getNumero() . ' (capacidad: ' . $mesa->getCapacidad() . ')';
                 },
                 'placeholder' => 'Selecciona una mesa'
             ])
@@ -85,9 +85,7 @@ class ReservaType extends AbstractType
 
                 if ($fecha && $mesa) {
                     // Replicamos la misma lógica que usas en el controlador para obtener horas
-                    $todasLasHoras = ['13:00', '13:15', '13:30', '13:45', '14:00', '14:15', '14:30', '14:45', '15:00', '15:15',
-                        '17:00', '17:15', '17:30', '17:45', '18:00', '18:15', '18:30', '18:45', '19:00', '19:15', '19:30', '19:45',
-                        '20:00', '20:15', '20:30', '20:45', '21:00', '21:15', '21:30', '21:45', '22:00'];
+                    $todasLasHoras = ['13:00', '13:45', '14:30', '15:15', '16:00', '16:45', '17:30', '18:15', '19:00', '19:45', '20:30', '21:15', '22:00'];
 
                     $reservasEnFecha = $this->reservaRepository->findReservasPorFechaYMesa($fecha, $mesa);
                     $horasOcupadas = array_map(fn($reserva) => $reserva->getFechaHora()->format('H:i'), $reservasEnFecha);
