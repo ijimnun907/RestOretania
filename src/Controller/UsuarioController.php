@@ -99,10 +99,10 @@ class UsuarioController extends AbstractController
         return $this->modificar($request, $usuarioRepository, $usuario);
     }
 
-    #[IsGranted('ROLE_ADMIN')]
     #[Route('/usuario/eliminar/{id}', name: 'usuario_eliminar')]
     public function eliminar(Request $request, UsuarioRepository $usuarioRepository, Usuario $usuario) : Response
     {
+        $this->denyAccessUnlessGranted(UsuarioVoter::DELETE, $usuario);
         if ($request->request->has('confirmar')){
             try {
                 $usuarioRepository->remove($usuario);

@@ -18,11 +18,13 @@ class UsuarioVoter extends Voter
     }
     public const VIEW = 'POST_VIEW';
 
+    public const DELETE = 'POST_DELETE';
+
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::VIEW])
+        return in_array($attribute, [self::VIEW, self::DELETE])
             && $subject instanceof Usuario;
     }
 
@@ -40,6 +42,8 @@ class UsuarioVoter extends Voter
                 return $this->security->isGranted('ROLE_CAMARERO') ||
                     $subject === $user;
                 break;
+            case self::DELETE:
+                return $this->security->isGranted('ROLE_ADMIN') && $subject !== $user;
         }
 
         return false;
